@@ -25,9 +25,10 @@ namespace EasyReading
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(EasyReadingPackage.PackageGuidString)]
+    [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(EasyReadingOptions), "Greetings Package", "Greetings Page", 0, 0, true)]
+    [ProvideOptionPage(typeof(EasyReadingOptions), "Easy Reading", "Config", 0, 0, true)]
+
     public sealed class EasyReadingPackage : AsyncPackage
     {
         /// <summary>
@@ -50,9 +51,7 @@ namespace EasyReading
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await FirstCommand.InitializeAsync(this);
-
         }
-
         #endregion
     }
 
