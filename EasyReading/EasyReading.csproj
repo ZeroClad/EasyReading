@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="ErrorHelper.cs" />
     <Compile Include="FirstCommand.cs" />
+    <Compile Include="StatusbarHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EasyReadingPackage.cs" />
   </ItemGroup>

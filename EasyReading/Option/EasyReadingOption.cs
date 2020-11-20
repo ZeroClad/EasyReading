@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyReading.Option
 {
-    class EasyReadingOption : BaseOption<EasyReadingOption>
+    internal class EasyReadingOption : BaseOption<EasyReadingOption>
     {
         [Category("Overall setting")]
         [DisplayName("Reading Type")]
@@ -75,6 +77,22 @@ namespace EasyReading.Option
         [DefaultValue(false)]
         public TaskErrorCategory ErrorLevel { get; set; } = TaskErrorCategory.Error;
 
+        public EasyReadingOption DeepClone()
+        {
+            EasyReadingOption o = new EasyReadingOption();
+            o.Type = Type;
+            o.TxtFilePath = TxtFilePath;
+            o.StatusbarCurrentPage = StatusbarCurrentPage;
+            o.StatusbarTextLength = StatusbarTextLength;
+            o.StatusbarSeparator = StatusbarSeparator;
+            o.ErrorListCurrentPage = ErrorListCurrentPage;
+            o.ParagraphCount = ParagraphCount;
+            o.ParagraphLength = ParagraphLength;
+            o.DisguiseCount = DisguiseCount;
+            o.ComplexDisguise = ComplexDisguise;
+            o.ErrorLevel = ErrorLevel;
+            return o;
+        }
     }
 
     public enum ReadingType

@@ -45,7 +45,7 @@ namespace EasyReading
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
             commandService.AddCommand(menuItem);
-            b = new Book();
+            b = new Book(package);
         }
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace EasyReading
 
             if (frozen != 0)
                 return;
-
+            b.GotoPage(1);
             // Set the status bar text and make its display static.
-            statusBar.SetText(b.userSetting.TxtFilePath);
+            //statusBar.SetText(b.userSetting.TxtFilePath);
 
             statusBar.Clear();
             ErrorHelper eh = new ErrorHelper();
