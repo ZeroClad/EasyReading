@@ -45,8 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Option\BaseOption.cs" />
     <Compile Include="Book.cs" />
-    <Compile Include="EasyReadingOptions.cs">
+    <Compile Include="Option\EasyReadingOption.cs" />
+    <Compile Include="Option\EasyReadingOptionProvider.cs" />
+    <Compile Include="Option\EasyReadingOptionPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ErrorHelper.cs" />

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EasyReading.Option;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -27,7 +28,7 @@ namespace EasyReading
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(EasyReadingOptions), "Easy Reading", "Config", 0, 0, true)]
+    [ProvideOptionPage(typeof(EasyReadingOptionProvider.General), "Easy Reading", "Config", 0, 0, true)]
 
     public sealed class EasyReadingPackage : AsyncPackage
     {

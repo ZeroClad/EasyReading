@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyReading
+namespace EasyReading.Option
 {
-    class EasyReadingOptions : DialogPage
+    class EasyReadingOption : BaseOption<EasyReadingOption>
     {
         [Category("Overall setting")]
         [DisplayName("Reading Type")]
@@ -69,6 +69,11 @@ namespace EasyReading
         [DefaultValue(false)]
         public bool ComplexDisguise { get; set; } = false;
 
+        [Category("Error list setting")]
+        [DisplayName("Error Level")]
+        [Description("Whether mix disguised message with paragraphs.")]
+        [DefaultValue(false)]
+        public TaskErrorCategory ErrorLevel { get; set; } = TaskErrorCategory.Error;
 
     }
 

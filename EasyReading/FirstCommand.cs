@@ -29,6 +29,8 @@ namespace EasyReading
         /// </summary>
         private readonly AsyncPackage package;
 
+        Book b;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FirstCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
@@ -43,6 +45,7 @@ namespace EasyReading
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
             commandService.AddCommand(menuItem);
+            b = new Book();
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace EasyReading
                 return;
 
             // Set the status bar text and make its display static.
-            statusBar.SetText("We just wrote to the status bar.");
+            statusBar.SetText(b.userSetting.TxtFilePath);
 
             statusBar.Clear();
             ErrorHelper eh = new ErrorHelper();
