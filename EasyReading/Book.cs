@@ -18,6 +18,7 @@ namespace EasyReading
         AsyncPackage package;
         StatusbarHelper statusbar;
         ErrorHelper errorlist;
+        string statusbarText = "";
 
         public Book(AsyncPackage p)
         {
@@ -34,10 +35,23 @@ namespace EasyReading
         public void GotoPage(int p)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            if (p != -1 && p != 1)
+                return;
             if (!CheckBookStatus())
                 return;
-            ErrorListShow(new string[] { content[userSetting.StatusbarCurrentPage] });
-            userSetting.StatusbarCurrentPage++;
+            if (userSetting.ParagraphCount >= content.Length)
+                return;
+
+            if (userSetting.Type == ReadingType.StatusBar)
+            {
+                StatusbarShow(p);
+            }
+            else
+            {
+                statusbarText = "";
+            }
+            
+            userSetting.CurrentPage++;
             userSetting.Save();
         }
 
@@ -57,7 +71,7 @@ namespace EasyReading
             //path = "d:\\a.txt";
             if (!File.Exists(path))
             {
-                StatusbarShow("File not exist!");
+                statusbar.ShowMessage("File not exist!");
                 return false;
             }
             try
@@ -76,12 +90,34 @@ namespace EasyReading
         {
         }
 
-        private void StatusbarShow(string s)
+        private void StatusbarShow(int p)
         {
+            // init errorlist
+
+            if (p == 1)
+            {
+                while (statusbarText.Length < userSetting.StatusbarTextLength)
+                {
+                    statusbarText += content[userSetting.ParagraphCount++];
+                    statusbarText += userSetting.StatusbarSeparator;
+                }
+                string showText = statusbarText.Substring(0, userSetting.StatusbarTextLength);
+                statusbarText = statusbarText.Substring(userSetting.StatusbarTextLength);
+            }
+            else
+            {
+                while (statusbarText.Length < userSetting.StatusbarTextLength)
+                {
+                    statusbarText += content[userSetting.ParagraphCount++];
+                    statusbarText += userSetting.StatusbarSeparator;
+                }
+                string showText = statusbarText.Substring(0, userSetting.StatusbarTextLength);
+                statusbarText = statusbarText.Substring(userSetting.StatusbarTextLength);
+            }
             statusbar.ShowMessage(s);
         }
 
-        private void ErrorListShow(string[] s)
+        private void ErrorListShow()
         {
             errorlist.Write(TaskCategory.All, TaskErrorCategory.Error, "a", s[0], "a", 1, 1);
         }

@@ -23,11 +23,11 @@ namespace EasyReading.Option
         [Description("Input full txt file path.")]
         public string TxtFilePath { get; set; } = "";
 
-        [Category("Statusbar setting")]
-        [DisplayName("Current Page")]
-        [Description("Current page of the book in statusbar mode.")]
+        [Category("Overall setting")]
+        [DisplayName("Current Paragraph")]
+        [Description("Current Paragraph of the book.")]
         [DefaultValue(0)]
-        public int StatusbarCurrentPage { get; set; } = 0;
+        public int CurrentPage { get; set; } = 0;
 
         [Category("Statusbar setting")]
         [DisplayName("Length")]
@@ -40,12 +40,6 @@ namespace EasyReading.Option
         [Description("the separator between paragraphs.")]
         [DefaultValue(" ■■ ")]
         public string StatusbarSeparator { get; set; } = " ■■ ";
-
-        [Category("Statusbar setting")]
-        [DisplayName("Current Page")]
-        [Description("Current page of the book in error list mode.")]
-        [DefaultValue(0)]
-        public int ErrorListCurrentPage { get; set; } = 0;
 
         [Category("Error list setting")]
         [DisplayName("Paragraph Count")]
@@ -82,10 +76,9 @@ namespace EasyReading.Option
             EasyReadingOption o = new EasyReadingOption();
             o.Type = Type;
             o.TxtFilePath = TxtFilePath;
-            o.StatusbarCurrentPage = StatusbarCurrentPage;
             o.StatusbarTextLength = StatusbarTextLength;
             o.StatusbarSeparator = StatusbarSeparator;
-            o.ErrorListCurrentPage = ErrorListCurrentPage;
+            o.CurrentPage = CurrentPage;
             o.ParagraphCount = ParagraphCount;
             o.ParagraphLength = ParagraphLength;
             o.DisguiseCount = DisguiseCount;
