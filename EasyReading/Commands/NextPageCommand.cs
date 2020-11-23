@@ -1,23 +1,19 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace EasyReading
+namespace EasyReading.Commands
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class FirstCommand
+    internal sealed class NextPageCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 4129;
+        public const int CommandId = 0x1022;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -28,16 +24,15 @@ namespace EasyReading
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly AsyncPackage package;
-
-        Book b;
+        Book book;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FirstCommand"/> class.
+        /// Initializes a new instance of the <see cref="NextPageCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private FirstCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private NextPageCommand(AsyncPackage package, OleMenuCommandService commandService, Book b)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -45,13 +40,13 @@ namespace EasyReading
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
             commandService.AddCommand(menuItem);
-            b = new Book(package);
+            book = b;
         }
 
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static FirstCommand Instance
+        public static NextPageCommand Instance
         {
             get;
             private set;
@@ -61,35 +56,20 @@ namespace EasyReading
         /// Initializes the singleton instance of the command.
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        public static async Task InitializeAsync(AsyncPackage package)
+        public static async Task InitializeAsync(AsyncPackage package, Book b)
         {
             // Switch to the main thread - the call to AddCommand in FirstCommand's constructor requires
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new FirstCommand(package, commandService);
+            Instance = new NextPageCommand(package, commandService, b);
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            IVsStatusbar statusBar = package.GetService<SVsStatusbar, IVsStatusbar>();
-
-            // Make sure the status bar is not frozen
-            int frozen;
-
-            statusBar.IsFrozen(out frozen);
-
-            if (frozen != 0)
-                return;
-            b.GotoPage(1);
-            // Set the status bar text and make its display static.
-            //statusBar.SetText(b.userSetting.TxtFilePath);
-
-            statusBar.Clear();
-            ErrorHelper eh = new ErrorHelper();
-            eh.Write(TaskCategory.All, TaskErrorCategory.Error, "context", "text", "document", 123, 321);
+            book.GotoPage(1);
         }
     }
 }

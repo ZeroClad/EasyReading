@@ -1,13 +1,8 @@
 ﻿using EasyReading.Option;
-using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Settings;
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyReading
 {
@@ -19,6 +14,7 @@ namespace EasyReading
         StatusbarHelper statusbar;
         ErrorHelper errorlist;
         string statusbarText = "";
+        string bookName = "";
 
         public Book(AsyncPackage p)
         {
@@ -42,16 +38,16 @@ namespace EasyReading
             if (userSetting.ParagraphCount >= content.Length)
                 return;
 
-            if (userSetting.Type == ReadingType.StatusBar)
+            if (userSetting.Type == ReadingType.ErrorList)
             {
-                StatusbarShow(p);
+                ErrorListShow(p);
             }
             else
             {
-                statusbarText = "";
+                StatusbarShow(p);
             }
             
-            userSetting.CurrentPage++;
+            //userSetting.CurrentPage++;
             userSetting.Save();
         }
 
@@ -63,12 +59,12 @@ namespace EasyReading
                 if (!ReadFile(currentSetting.TxtFilePath))
                     return false;
             }
+            bookName = Path.GetFileName(currentSetting.TxtFilePath);
             return true;
         }
 
         private bool ReadFile(string path)
         {
-            //path = "d:\\a.txt";
             if (!File.Exists(path))
             {
                 statusbar.ShowMessage("File not exist!");
@@ -88,6 +84,8 @@ namespace EasyReading
 
         private void UpdateSettings()
         {
+            // todo: sync user setting and current setting for further beautify.
+            userSetting.Save();
         }
 
         private void StatusbarShow(int p)
@@ -114,12 +112,36 @@ namespace EasyReading
                 string showText = statusbarText.Substring(0, userSetting.StatusbarTextLength);
                 statusbarText = statusbarText.Substring(userSetting.StatusbarTextLength);
             }
-            statusbar.ShowMessage(s);
+            statusbar.ShowMessage("");
         }
 
-        private void ErrorListShow()
+        private void ErrorListShow(int p)
         {
-            errorlist.Write(TaskCategory.All, TaskErrorCategory.Error, "a", s[0], "a", 1, 1);
+            statusbarText = "";
+            if (p == -1)
+                userSetting.CurrentPage -= 2 * userSetting.ParagraphCount;
+            if (userSetting.CurrentPage < 0)
+                userSetting.CurrentPage = 0;
+            if (userSetting.CurrentPage > content.Length - userSetting.ParagraphCount)
+                userSetting.CurrentPage = content.Length - userSetting.ParagraphCount;
+            for (int i = 0; i < userSetting.ParagraphCount; i++)
+            {
+                errorlist.Add(GenerateTask(userSetting.CurrentPage, content[userSetting.CurrentPage++]));
+            }
+            errorlist.Refresh();
+            UpdateSettings();
+        }
+
+        private ErrorTask GenerateTask(int line, string text)
+        {
+            return new ErrorTask
+            {
+                ErrorCategory = currentSetting.ErrorLevel,
+                Text = text,
+                Line = line - 1,
+                Document = bookName,
+                Category = TaskCategory.All
+            };
         }
     }
 }

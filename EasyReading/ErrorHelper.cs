@@ -1,17 +1,21 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TextManager.Interop;
+﻿using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace EasyReading
 {
     class ErrorHelper : IServiceProvider
     {
+        private List<ErrorTask> currentTask, newTask;
+        private ErrorListProvider currentProvider;
+
+        public ErrorHelper()
+        {
+            currentTask = new List<ErrorTask>();
+            newTask = new List<ErrorTask>();
+            currentProvider = GetErrorListProvider();
+        }
+
         public object GetService(Type serviceType)
         {
             return Package.GetGlobalService(serviceType);
@@ -21,7 +25,7 @@ namespace EasyReading
         {
             ErrorListProvider provider = new ErrorListProvider(this);//this implementing IServiceProvider
             provider.ProviderName = "EasyReading";
-            provider.ProviderGuid = FirstCommand.CommandSet;
+            provider.ProviderGuid = new Guid(EasyReadingPackage.PackageGuidString);
             return provider;
         }
 
@@ -34,7 +38,9 @@ namespace EasyReading
             int line,
             int column)
         {
+            
             ErrorTask task = new ErrorTask();
+            task.ErrorCategory = TaskErrorCategory.Error;
             task.Text = text;
             task.ErrorCategory = errorCategory;
             //The task list does +1 before showing this numbers
@@ -43,7 +49,25 @@ namespace EasyReading
             task.Document = document;
             task.Category = category;
 
-            GetErrorListProvider().Tasks.Add(task);//add it to the errorlistprovider
+            currentProvider.Tasks.Add(task);  //add it to the errorlistprovider
+        }
+
+        public void Add(ErrorTask t)
+        {
+            newTask.Add(t);
+        }
+
+        public void Refresh()
+        {
+            foreach (ErrorTask t in currentTask)
+                currentProvider.Tasks.Remove(t);
+            currentTask.Clear();
+            foreach (ErrorTask t in newTask)
+            {
+                currentProvider.Tasks.Add(t);
+                currentTask.Add(t);
+            }
+            newTask.Clear();
         }
     }
 

@@ -1,12 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyReading.Option
 {
@@ -90,7 +83,7 @@ namespace EasyReading.Option
 
     public enum ReadingType
     {
-        StatusBar,
+        //StatusBar,
         ErrorList
     }
 }
