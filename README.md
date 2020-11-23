@@ -20,6 +20,6 @@ Only tested in VS2019.
 
 * You can assign hotkeys for the extension in Options/Environment/Keyboard for
 
-** Next Page
+  * Next Page
 
-** Last Page
+  * Last Page
