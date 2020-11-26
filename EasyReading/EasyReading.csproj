@@ -46,6 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\LastPageCommand.cs" />
+    <Compile Include="Commands\OptionsCommand.cs" />
     <Compile Include="Option\BaseOption.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Option\EasyReadingOption.cs" />
@@ -89,6 +90,7 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\OptionsCommand.png" />
     <Content Include="Resources\LastPageCommand.png" />
     <Content Include="Resources\NextPageCommand.png" />
   </ItemGroup>

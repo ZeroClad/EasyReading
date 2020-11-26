@@ -54,6 +54,7 @@ namespace EasyReading
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await NextPageCommand.InitializeAsync(this, book);
             await LastPageCommand.InitializeAsync(this, book);
+            await EasyReading.Commands.OptionsCommand.InitializeAsync(this);
         }
         #endregion
     }

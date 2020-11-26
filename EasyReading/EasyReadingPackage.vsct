@@ -76,6 +76,13 @@
           <ButtonText>Last Page</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidEasyReadingPackageCmdSet" id="cmdidOptionsCommand" priority="0x0102" type="Button">
+        <Parent guid="guidEasyReadingPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages3" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Options...</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -87,6 +94,7 @@
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages1" href="Resources\NextPageCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages2" href="Resources\LastPageCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages3" href="Resources\OptionsCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -100,7 +108,8 @@
 		<IDSymbol name="TopLevelMenu" value="0x1021" />
 		<IDSymbol value="0x1022" name="cmdidNextPageCommand" />
 		<IDSymbol value="0x1023" name="cmdidLastPageCommand" />
-	</GuidSymbol>
+	    <IDSymbol value="0x1024" name="cmdidOptionsCommand" />
+    </GuidSymbol>
 
 	<GuidSymbol name="guidImages" value="{3dd0cdf0-4c21-4a95-83d9-375733d4122d}">
 		<IDSymbol name="bmpPic1" value="1" />
@@ -121,6 +130,15 @@
 	</GuidSymbol>
   
     <GuidSymbol value="{ef8755e6-ed8f-4adb-9619-2b7b2e74b6f0}" name="guidImages2">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{e24c0ef1-3f0f-4853-9247-9d32c949d9d4}" name="guidImages3">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
